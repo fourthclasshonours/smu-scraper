@@ -7,7 +7,7 @@ import * as ICAL from 'ical.js';
 import jsdom, { JSDOM } from 'jsdom';
 import fetch from 'node-fetch';
 
-export default async function parseDates(): Promise<unknown> {
+export default async function importantDates(): Promise<unknown> {
   const url = 'https://www.trumba.com/calendars/SMU_RO_Acad.ics';
   const iCalData = fetch(url).then((res) => {
     return res.text();

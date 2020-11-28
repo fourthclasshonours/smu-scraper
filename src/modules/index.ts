@@ -1,1 +1,3 @@
-export { default as parseImportantDates } from './important_dates';
+import { default as importantDates } from './important_dates';
+
+export default [importantDates];
