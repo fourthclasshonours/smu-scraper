@@ -1,0 +1,38 @@
+{
+  "name": "smu-scraper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Amos <alphatrl1997@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/ical": "./src/types/ical.js",
+    "@types/jsdom": "^16.2.5",
+    "@types/node": "^14.14.10",
+    "@types/node-fetch": "^2.5.7",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.6.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-simple-import-sort": "^5.0.3",
+    "prettier": "^2.0.5",
+    "ts-node": "^8.10.2",
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "ical.js": "^1.4.0",
+    "jsdom": "^16.4.0",
+    "node-fetch": "^2.6.1",
+    "rss-parser": "^3.9.0"
+  },
+  "scripts": {
+    "start": "node dist/index.js",
+    "develop": "ts-node ./index.ts",
+    "build": "tsc --outDir dist",
+    "test": "echo Hi!"
+  }
+}
