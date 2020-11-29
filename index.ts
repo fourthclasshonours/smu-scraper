@@ -5,6 +5,10 @@ import MODULES from './src/modules';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+if (!fs.existsSync('temp')) {
+  fs.mkdirSync('temp');
+}
+
 const main = async () => {
   for (const module of MODULES) {
     const module_name = module.name;
@@ -20,9 +24,5 @@ const main = async () => {
     );
   }
 };
-
-if (!fs.existsSync('temp')) {
-  fs.mkdirSync('temp');
-}
 
 main();
