@@ -10,11 +10,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          persist-crendentials: false
+          persist-credentials: false
 
       - uses: actions/setup-node@v1
 
       - name: Install, Build and Fetch Data
+        env:
+          NODE_ENV: ${{ secrets.NODE_ENV }}
         run: |
           npm install
           npm build
