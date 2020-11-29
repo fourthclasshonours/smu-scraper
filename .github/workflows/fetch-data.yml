@@ -20,10 +20,10 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-        - name: Build /dist
+      - name: Build /dist
         run: yarn build
 
-        - name: Fetch data
+      - name: Fetch data
         env:
           NODE_ENV: ${{ secrets.NODE_ENV }}
         run: yarn start
