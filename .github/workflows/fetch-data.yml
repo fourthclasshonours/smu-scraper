@@ -1,0 +1,30 @@
+name: fetch-data
+on:
+  workflow_dispatch:
+  schedule:
+    # run on 17:00 every Friday
+    - cron: '0 17 * * Fri'
+jobs:
+  get-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-crendentials: false
+
+      - uses: actions/setup-node@v1
+
+      - name: Install, Build and Fetch Data
+        run: |
+          npm install
+          npm build
+          npm start
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh_pages
+          FOLDER: temp
+          CLEAN: true
+          SINGLE_COMMIT: true
