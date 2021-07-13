@@ -5,6 +5,7 @@
 
 import * as ICAL from 'ical.js';
 import { JSDOM } from 'jsdom';
+import moment from 'moment-timezone';
 import fetch from 'node-fetch';
 
 export default async function important_dates(): Promise<unknown> {
@@ -18,38 +19,37 @@ export default async function important_dates(): Promise<unknown> {
   // convert it into a javascript object
   const events = veventList.map((item) => {
     const vevent = new ICAL.Event(item);
-    const startTime =
-      <number>vevent.startDate.year +
-      '-' +
-      toTwoDigits(vevent.startDate.month) +
-      '-' +
-      toTwoDigits(vevent.startDate.day) +
-      'T' +
-      toTwoDigits(vevent.startDate.hour) +
-      ':' +
-      toTwoDigits(vevent.startDate.minute) +
-      ':' +
-      toTwoDigits(vevent.startDate.second) +
-      '+08:00';
+    const startTime = moment.tz(
+      `
+      ${vevent.startDate.year}-${toTwoDigits(
+        vevent.startDate.month
+      )}-${toTwoDigits(vevent.startDate.day)} ${toTwoDigits(
+        vevent.startDate.hour
+      )}:${toTwoDigits(vevent.startDate.minute)}
+    `,
+      'YYYY-MM-DD hh:mm',
+      'Asia/Singapore'
+    );
 
-    const endTime =
-      <number>vevent.endDate.year +
-      '-' +
-      toTwoDigits(vevent.endDate.month) +
-      '-' +
-      toTwoDigits(vevent.endDate.day) +
-      'T' +
-      toTwoDigits(vevent.endDate.hour) +
-      ':' +
-      toTwoDigits(vevent.endDate.minute) +
-      ':' +
-      toTwoDigits(vevent.endDate.second) +
-      '+08:00';
+    const endTime = moment.tz(
+      `
+      ${vevent.endDate.year}-${toTwoDigits(vevent.endDate.month)}-${toTwoDigits(
+        vevent.endDate.day
+      )} ${toTwoDigits(vevent.endDate.hour)}:${toTwoDigits(
+        vevent.endDate.minute
+      )}
+    `,
+      'YYYY-MM-DD hh:mm',
+      'Asia/Singapore'
+    );
 
     return {
       summary: htmlDecode(vevent.summary),
-      startTime: Date.parse(startTime),
-      endTime: Date.parse(endTime),
+      startTime: startTime.unix(),
+      endTime:
+        vevent.endDate.hour === 23 && vevent.endDate.minute === 59
+          ? endTime.add(1, 'day').set({ hour: 0, minute: 0 }).unix()
+          : endTime.unix(),
     };
   });
 
