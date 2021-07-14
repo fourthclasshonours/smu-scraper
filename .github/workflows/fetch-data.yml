@@ -33,12 +33,9 @@ jobs:
         run: yarn start
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BASE_BRANCH: main
           BRANCH: gh-pages
-          GIT_CONFIG_NAME: 'SMU Scraper'
           FOLDER: temp
           CLEAN: true
           SINGLE_COMMIT: true
