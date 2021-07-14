@@ -1,28 +1,23 @@
 import fs from 'fs';
-import path from 'path';
 
-import MODULES from './src/modules';
+import UNIVERSITIES from './src/sources';
 
-const isProduction = process.env.NODE_ENV === 'production';
-
-if (!fs.existsSync('temp')) {
+try {
   fs.mkdirSync('temp');
-}
+} catch {}
 
-const main = async () => {
-  for (const module of MODULES) {
-    const module_name = module.name;
-    const filename = path.join('temp', `${module_name}.json`);
-    if (fs.existsSync(filename)) {
-      fs.unlinkSync(filename);
+async function main() {
+  for (const university of UNIVERSITIES) {
+    try {
+      try {
+        fs.mkdirSync(`temp/${university.name}`);
+      } catch {}
+
+      await university();
+    } catch (e) {
+      console.error(`[${university.name}]:\n`, e);
     }
-
-    const results = await module();
-    fs.writeFileSync(
-      filename,
-      JSON.stringify(results, null, isProduction ? 0 : 2)
-    );
   }
-};
+}
 
 main();
