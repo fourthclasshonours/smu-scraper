@@ -33,9 +33,11 @@ jobs:
         run: yarn start
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: crazy-max/ghaction-github-pages@v2
+        if: success()
         with:
-          BRANCH: gh-pages
-          FOLDER: temp
-          CLEAN: true
-          SINGLE-COMMIT: true
+          target_branch: gh-pages
+          build_dir: temp
+          commit_message: 'chore: deploy to GitHub Pages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

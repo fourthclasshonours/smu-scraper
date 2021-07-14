@@ -8,7 +8,7 @@ import getImportantDates from './getImportantDates';
 dotenv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
-const basePath = `${path.resolve()}/temp/smu`;
+const basePath = `${path.resolve()}/temp/SMU`;
 
 export default async function SMU(): Promise<void> {
   console.time('smu');
