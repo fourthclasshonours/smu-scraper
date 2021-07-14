@@ -8,7 +8,13 @@ import { JSDOM } from 'jsdom';
 import moment from 'moment-timezone';
 import fetch from 'node-fetch';
 
-export default async function important_dates(): Promise<unknown> {
+interface Event {
+  summary: string;
+  startTime: number;
+  endTime: number;
+}
+
+export default async function importantDates(): Promise<Event[]> {
   const url = 'https://www.trumba.com/calendars/SMU_RO_Acad.ics';
   const iCalData = fetch(url).then((res) => {
     return res.text();
@@ -21,24 +27,24 @@ export default async function important_dates(): Promise<unknown> {
     const vevent = new ICAL.Event(item);
     const startTime = moment.tz(
       `
-      ${vevent.startDate.year}-${toTwoDigits(
+       ${vevent.startDate.year}-${toTwoDigits(
         vevent.startDate.month
       )}-${toTwoDigits(vevent.startDate.day)} ${toTwoDigits(
         vevent.startDate.hour
       )}:${toTwoDigits(vevent.startDate.minute)}
-    `,
+     `,
       'YYYY-MM-DD hh:mm',
       'Asia/Singapore'
     );
 
     const endTime = moment.tz(
       `
-      ${vevent.endDate.year}-${toTwoDigits(vevent.endDate.month)}-${toTwoDigits(
-        vevent.endDate.day
-      )} ${toTwoDigits(vevent.endDate.hour)}:${toTwoDigits(
-        vevent.endDate.minute
-      )}
-    `,
+       ${vevent.endDate.year}-${toTwoDigits(
+        vevent.endDate.month
+      )}-${toTwoDigits(vevent.endDate.day)} ${toTwoDigits(
+        vevent.endDate.hour
+      )}:${toTwoDigits(vevent.endDate.minute)}
+     `,
       'YYYY-MM-DD hh:mm',
       'Asia/Singapore'
     );
@@ -54,7 +60,7 @@ export default async function important_dates(): Promise<unknown> {
   });
 
   // remove duplicate results
-  const uniqueData = events.filter((data, index) => {
+  const uniqueData: Event[] = events.filter((data, index) => {
     const dataString = JSON.stringify(data);
     return (
       index ===
