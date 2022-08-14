@@ -66,3 +66,5 @@ output.html
 
 dist/
 temp/
+
+.DS_Store
